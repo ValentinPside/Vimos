@@ -6,7 +6,11 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component
+@Component(modules = [
+    NetworkModule::class,
+    RepositoryModule::class
+]
+)
 interface AppComponent {
 
     @Component.Factory
