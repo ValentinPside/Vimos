@@ -11,23 +11,22 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SecondViewModel @Inject constructor(
-    private val title: String,
-    private val list: List<Categories>
+    categories: Categories,
+    title: String
 ) : ViewModel() {
 
     private val state = MutableStateFlow(SpecificViewState())
     fun observeUi() = state.asStateFlow()
 
     init {
-        getFirstLevelCategories(title, list)
+        getFirstLevelCategories(categories, title)
     }
 
-    private fun getFirstLevelCategories(title: String, list: List<Categories>) {
+    private fun getFirstLevelCategories(categories: Categories, title: String) {
         viewModelScope.launch {
             state.update { it.copy(isLoading = true) }
             try {
-                val list = state.value.items
-                state.update { it.copy(title = title, items = list, error = null) }
+                state.update { it.copy(title = title, items = categories.subCategories[1].subCategories, error = null) }
             } catch (e: Exception) {
                 state.update { it.copy(error = R.string.error_message) }
             } finally {

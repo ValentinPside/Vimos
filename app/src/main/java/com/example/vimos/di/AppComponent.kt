@@ -16,7 +16,7 @@ interface AppComponent {
 
     fun firstComponent(): FirstComponent
 
-    fun secondComponent(): SecondComponent.SpecificComponentFactory
+    fun secondComponent(): SecondComponent.SecondComponentFactory
 
     @Component.Factory
     interface AppComponentFactory {

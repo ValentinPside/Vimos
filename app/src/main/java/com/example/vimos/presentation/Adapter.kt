@@ -11,7 +11,7 @@ import com.example.vimos.R
 import com.example.vimos.databinding.CategoryItemBinding
 import com.example.vimos.domain.Categories
 
-class Adapter (private val onClick: (Categories) -> Unit) :
+class Adapter (private val onClick: (String) -> Unit) :
     ListAdapter<Categories, Adapter.ViewHolder>(DiffUtilCategories()) {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -20,7 +20,7 @@ class Adapter (private val onClick: (Categories) -> Unit) :
         fun bind(categories: Categories) {
             binding.textView.text = categories.title
             binding.root.setOnClickListener{
-                onClick.invoke(categories)
+                onClick.invoke(categories.title)
             }
         }
     }

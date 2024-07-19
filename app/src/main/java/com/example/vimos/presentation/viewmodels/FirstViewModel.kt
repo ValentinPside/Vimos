@@ -27,7 +27,7 @@ class FirstViewModel @Inject constructor(
             state.update { it.copy(isLoading = true) }
             try {
                 val list = repository.getZeroLevelList()
-                state.update { it.copy(items = list[0].subCategories, error = null) }
+                state.update { it.copy(items = list[0].subCategories, error = null, firstCategory = list[0]) }
             } catch (e: Exception) {
                 state.update { it.copy(error = R.string.error_message) }
             } finally {
@@ -106,7 +106,9 @@ class FirstViewModel @Inject constructor(
 
 
 data class ViewState(
+    val title: String = "Строительные материалы",
     val items: List<Categories> = emptyList(),
     val error: Int? = null,
-    val isLoading: Boolean = false
+    val isLoading: Boolean = false,
+    val firstCategory: Categories? = null
 )

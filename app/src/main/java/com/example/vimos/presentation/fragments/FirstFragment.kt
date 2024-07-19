@@ -1,5 +1,6 @@
 package com.example.vimos.presentation.fragments
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -17,8 +18,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.vimos.R
 import com.example.vimos.app.App
 import com.example.vimos.databinding.FragmentFirstBinding
-import com.example.vimos.domain.Categories
 import com.example.vimos.presentation.Adapter
+import com.example.vimos.presentation.MainActivity
 import com.example.vimos.presentation.viewmodels.FirstViewModel
 import com.example.vimos.utils.Factory
 import kotlinx.coroutines.launch
@@ -33,6 +34,7 @@ class FirstFragment : Fragment() {
         }
     }
     private lateinit var adapter: Adapter
+    private lateinit var activity: MainActivity
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,6 +43,11 @@ class FirstFragment : Fragment() {
     ): View {
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        activity = context as MainActivity
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,7 +60,9 @@ class FirstFragment : Fragment() {
                         true -> binding.progressBar.visibility = View.VISIBLE
                         false -> binding.progressBar.visibility = View.GONE
                     }
+                    state.firstCategory?.let { activity.setData(it) }
                     adapter.submitList(state.items)
+                    binding.specificToolbars.title = state.title
                     state.error?.let { Toast.makeText(requireContext(), getString(it), Toast.LENGTH_SHORT).show() }
                 }
             }
@@ -66,13 +75,10 @@ class FirstFragment : Fragment() {
     }
 
     private fun setupRecycler() {
-        adapter = Adapter {categoryLevel: Categories ->
-            val action = SpecifyAmountFragmentDirections.confirmationAction(categoryLevel)
-            View.findNavController().navigate(action)
-
+        adapter = Adapter {
             findNavController().navigate(
                 R.id.action_firstFragment_to_secondFragment,
-                bundleOf("category" to categoryLevel)
+                bundleOf("title" to it)
             )
         }
         binding.hotelsRecycler.adapter = adapter

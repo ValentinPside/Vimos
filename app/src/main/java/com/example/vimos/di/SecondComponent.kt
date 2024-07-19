@@ -11,8 +11,8 @@ interface SecondComponent {
     fun viewModel(): SecondViewModel
 
     @Subcomponent.Factory
-    interface SpecificComponentFactory {
-        fun create(@BindsInstance category: Categories): SecondComponent
+    interface SecondComponentFactory {
+        fun create(@BindsInstance categories: Categories, @BindsInstance title: String): SecondComponent
     }
 
 }

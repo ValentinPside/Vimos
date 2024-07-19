@@ -1,6 +1,6 @@
 package com.example.vimos.presentation.fragments
 
-import android.os.Build
+import android.content.Context
 import androidx.fragment.app.viewModels
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -15,8 +15,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.vimos.app.App
 import com.example.vimos.databinding.FragmentSecondBinding
-import com.example.vimos.domain.Categories
 import com.example.vimos.presentation.Adapter
+import com.example.vimos.presentation.MainActivity
 import com.example.vimos.presentation.viewmodels.SecondViewModel
 import com.example.vimos.utils.Factory
 import kotlinx.coroutines.launch
@@ -25,13 +25,14 @@ class SecondFragment : Fragment() {
 
     private var _binding: FragmentSecondBinding? = null
     private val binding get() = _binding!!
-    private val category by lazy { requireArguments().get }
+    private val title by lazy { requireArguments().getString("title") }
     private val viewModel by viewModels<SecondViewModel> {
         Factory {
-            App.appComponent.secondComponent().create(requireNotNull(category)).viewModel()
+            App.appComponent.secondComponent().create(activity.getData()!!, requireNotNull(title)).viewModel()
         }
     }
     private lateinit var adapter: Adapter
+    private lateinit var activity: MainActivity
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,6 +41,11 @@ class SecondFragment : Fragment() {
     ): View {
         _binding = FragmentSecondBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        activity = context as MainActivity
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -71,7 +77,7 @@ class SecondFragment : Fragment() {
     }
 
     private fun setupRecycler() {
-        adapter = Adapter { categoryLevel: Categories->
+        adapter = Adapter {
             /*findNavController().navigate(
                 R.id.action_firstFragment_to_secondFragment,
                 bundleOf("categoryLevel" to categoryLevel, "title" to title)
