@@ -9,18 +9,18 @@ import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.vimos.R
 import com.example.vimos.databinding.CategoryItemBinding
-import com.example.vimos.domain.models.FirstLevelCategories
+import com.example.vimos.domain.Categories
 
-class Adapter (private val onClick: (String) -> Unit) :
-    ListAdapter<FirstLevelCategories, Adapter.ViewHolder>(DiffUtilCategories()) {
+class Adapter (private val onClick: (categoryLevel: Categories,title: String) -> Unit) :
+    ListAdapter<Categories, Adapter.ViewHolder>(DiffUtilCategories()) {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding by viewBinding{ CategoryItemBinding.bind(itemView) }
 
-        fun bind(categories: FirstLevelCategories) {
+        fun bind(categories: Categories) {
             binding.textView.text = categories.title
             binding.root.setOnClickListener{
-                onClick.invoke(categories.title)
+                onClick.invoke(categories ,categories.title)
             }
         }
     }
@@ -35,13 +35,13 @@ class Adapter (private val onClick: (String) -> Unit) :
         holder.bind(category)
     }
 
-    private class DiffUtilCategories : DiffUtil.ItemCallback<FirstLevelCategories>() {
+    private class DiffUtilCategories : DiffUtil.ItemCallback<Categories>() {
 
-        override fun areItemsTheSame(oldItem: FirstLevelCategories, newItem: FirstLevelCategories): Boolean {
+        override fun areItemsTheSame(oldItem: Categories, newItem: Categories): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: FirstLevelCategories, newItem: FirstLevelCategories): Boolean {
+        override fun areContentsTheSame(oldItem: Categories, newItem: Categories): Boolean {
             return oldItem.title == newItem.title
         }
     }

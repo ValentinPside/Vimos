@@ -1,8 +1,9 @@
 package com.example.vimos.domain.models
 
 import com.example.vimos.data.dto.SecondLevelCategoriesDto
+import com.example.vimos.domain.Categories
 
 data class FirstLevelCategories(
-    val title: String,
-    val subCategories: List<SecondLevelCategories>
-)
+    override val title: String,
+    override val subCategories: List<SecondLevelCategories>
+): Categories

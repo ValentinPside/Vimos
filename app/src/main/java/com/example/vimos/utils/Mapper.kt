@@ -13,9 +13,11 @@ import com.example.vimos.domain.models.ZeroLevelCategories
 
 
 fun StrojmaterialDto.asStrojmaterial() = Strojmaterial(
+    title = this.title,
     subCategories = this.subCategories.asZeroLevelCategories()
 )
 fun ZeroLevelCategoriesDto.asZeroLevelCategories() = ZeroLevelCategories(
+    title = this.title,
     subCategories = this.subCategories.asFirstLevelCategoriesList()
 )
 
@@ -31,7 +33,8 @@ fun SecondLevelCategoriesDto.asSecondLevelCategories() = SecondLevelCategories(
 
 fun ThirdLevelCategoriesDto.asThirdLevelCategories() = ThirdLevelCategories(
     title = this.title,
-    slug = this.slug
+    slug = this.slug,
+    subCategories = this.subCategories
 )
 
 fun List<ZeroLevelCategoriesDto>.asZeroLevelCategories(): List<ZeroLevelCategories> = this.map { it.asZeroLevelCategories() }

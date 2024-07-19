@@ -14,6 +14,11 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.vimos.app.App
 import com.example.vimos.databinding.FragmentFirstBinding
+import com.example.vimos.domain.Categories
+import com.example.vimos.domain.models.FirstLevelCategories
+import com.example.vimos.domain.models.SecondLevelCategories
+import com.example.vimos.domain.models.Strojmaterial
+import com.example.vimos.domain.models.ZeroLevelCategories
 import com.example.vimos.utils.Factory
 import kotlinx.coroutines.launch
 
@@ -60,8 +65,21 @@ class FirstFragment : Fragment() {
     }
 
     private fun setupRecycler() {
-        adapter = Adapter {
-
+        adapter = Adapter {categoryLevel: Categories, title: String ->
+            when(categoryLevel){
+                is Strojmaterial -> {
+                    viewModel.getZeroLevelCategories()
+                }
+                is ZeroLevelCategories -> {
+                    viewModel.getFirstLevelCategories(title)
+                }
+                is FirstLevelCategories -> {
+                    viewModel.getSecondLevelCategories(title)
+                }
+                is SecondLevelCategories -> {
+                    viewModel.getThirdLevelCategories(title)
+                }
+            }
         }
         binding.hotelsRecycler.adapter = adapter
         binding.hotelsRecycler.layoutManager = LinearLayoutManager(requireContext())
