@@ -1,8 +1,8 @@
 package com.example.vimos.domain
 
-import com.example.vimos.domain.models.SecondLevelCategories
+import android.os.Parcelable
 
-interface Categories {
+interface Categories: Parcelable {
     val title: String
     val subCategories: List<Categories>
 }

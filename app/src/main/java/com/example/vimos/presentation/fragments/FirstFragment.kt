@@ -1,4 +1,4 @@
-package com.example.vimos.presentation
+package com.example.vimos.presentation.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,19 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.vimos.R
 import com.example.vimos.app.App
 import com.example.vimos.databinding.FragmentFirstBinding
 import com.example.vimos.domain.Categories
-import com.example.vimos.domain.models.FirstLevelCategories
-import com.example.vimos.domain.models.SecondLevelCategories
-import com.example.vimos.domain.models.Strojmaterial
-import com.example.vimos.domain.models.ZeroLevelCategories
+import com.example.vimos.presentation.Adapter
+import com.example.vimos.presentation.viewmodels.FirstViewModel
 import com.example.vimos.utils.Factory
 import kotlinx.coroutines.launch
 
@@ -65,21 +66,14 @@ class FirstFragment : Fragment() {
     }
 
     private fun setupRecycler() {
-        adapter = Adapter {categoryLevel: Categories, title: String ->
-            when(categoryLevel){
-                is Strojmaterial -> {
-                    viewModel.getZeroLevelCategories()
-                }
-                is ZeroLevelCategories -> {
-                    viewModel.getFirstLevelCategories(title)
-                }
-                is FirstLevelCategories -> {
-                    viewModel.getSecondLevelCategories(title)
-                }
-                is SecondLevelCategories -> {
-                    viewModel.getThirdLevelCategories(title)
-                }
-            }
+        adapter = Adapter {categoryLevel: Categories ->
+            val action = SpecifyAmountFragmentDirections.confirmationAction(categoryLevel)
+            View.findNavController().navigate(action)
+
+            findNavController().navigate(
+                R.id.action_firstFragment_to_secondFragment,
+                bundleOf("category" to categoryLevel)
+            )
         }
         binding.hotelsRecycler.adapter = adapter
         binding.hotelsRecycler.layoutManager = LinearLayoutManager(requireContext())

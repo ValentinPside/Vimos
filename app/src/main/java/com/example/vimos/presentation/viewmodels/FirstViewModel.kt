@@ -1,4 +1,4 @@
-package com.example.vimos.presentation
+package com.example.vimos.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -88,11 +88,24 @@ class FirstViewModel @Inject constructor(
         return state.value.items[index].subCategories
     }
 
+    private fun getPreIndexByTitle(title: String): Int{
+        var index = 0
+        for(i in state.value.items){
+            if (title == i.title && index > 0){
+                return index - 1
+            }
+            if(title == i.title && index == 0){
+                return 0
+            }
+            else index++
+        }
+        return index - 1
+    }
+
 }
 
 
 data class ViewState(
-    val headText: String = "",
     val items: List<Categories> = emptyList(),
     val error: Int? = null,
     val isLoading: Boolean = false
