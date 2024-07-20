@@ -22,6 +22,8 @@ interface AppComponent {
 
     fun thirdComponent(): ThirdComponent.ThirdComponentFactory
 
+    fun catalogComponent(): CatalogComponent.CatalogComponentFactory
+
     @Component.Factory
     interface AppComponentFactory {
         fun create(@BindsInstance context: Context): AppComponent

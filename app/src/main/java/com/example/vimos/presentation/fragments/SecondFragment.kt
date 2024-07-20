@@ -54,6 +54,10 @@ class SecondFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecycler()
+        binding.specificToolbars.title = title
+        binding.specificToolbars.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.observeUi().collect { state ->
@@ -62,10 +66,7 @@ class SecondFragment : Fragment() {
                         false -> binding.progressBar.visibility = View.GONE
                     }
                     adapter.submitList(state.items)
-                    val secondIndex = title?.let { viewModel.getIndexByTitle(it, state.items) }
-                    if (secondIndex != null) {
-                        activity.setSecondFragmentIndex(secondIndex)
-                    }
+                    activity.setSecondFragmentIndex(state.index)
                     state.error?.let {
                         Toast.makeText(
                             requireContext(),
@@ -84,7 +85,7 @@ class SecondFragment : Fragment() {
     }
 
     private fun setupRecycler() {
-        adapter = Adapter {
+        adapter = Adapter {title, _ ->
             findNavController().navigate(
                 R.id.action_secondFragment_to_thirdFragment,
                 bundleOf("title" to title)

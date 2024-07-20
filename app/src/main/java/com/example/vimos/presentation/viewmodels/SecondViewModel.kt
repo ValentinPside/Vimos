@@ -31,7 +31,8 @@ class SecondViewModel @Inject constructor(
                     it.copy(
                         title = title,
                         items = categories.subCategories[index].subCategories,
-                        error = null
+                        error = null,
+                        index = getIndexByTitle(title, categories.subCategories)
                     )
                 }
             } catch (e: Exception) {
@@ -42,14 +43,13 @@ class SecondViewModel @Inject constructor(
         }
     }
 
-    fun getIndexByTitle(title: String, list: List<Categories>): Int {
-        var index = 0
+    private fun getIndexByTitle(title: String, list: List<Categories>): Int {
         for (i in list) {
             if (title == i.title) {
-                return index
-            } else index++
+                return list.indexOf(i)
+            }
         }
-        return index
+        return 0
     }
 }
 
@@ -57,5 +57,6 @@ data class SecondViewState(
     val title: String = "",
     val items: List<Categories> = emptyList(),
     val error: Int? = null,
-    val isLoading: Boolean = false
+    val isLoading: Boolean = false,
+    val index: Int = 0
 )

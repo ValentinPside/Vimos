@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.fragments.FirstFragment">
+    tools:context=".presentation.fragments.CatalogFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/specific_toolbars"
@@ -14,6 +14,7 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/back_button"
         app:title="@string/text_holder" />
 
     <androidx.recyclerview.widget.RecyclerView

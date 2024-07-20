@@ -81,10 +81,10 @@ class FirstFragment : Fragment() {
     }
 
     private fun setupRecycler() {
-        adapter = Adapter {
+        adapter = Adapter { title, _ ->
             findNavController().navigate(
                 R.id.action_firstFragment_to_secondFragment,
-                bundleOf("title" to it)
+                bundleOf("title" to title)
             )
         }
         binding.hotelsRecycler.adapter = adapter

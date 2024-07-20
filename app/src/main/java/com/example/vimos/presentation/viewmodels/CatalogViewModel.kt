@@ -3,35 +3,36 @@ package com.example.vimos.presentation.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.vimos.R
-import com.example.vimos.domain.Categories
+import com.example.vimos.domain.Repository
+import com.example.vimos.domain.models.Slug
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class ThirdViewModel @Inject constructor(
-    categories: Categories,
+class CatalogViewModel @Inject constructor(
+    private val repository: Repository,
     title: String,
-    firstIndex: Int
+    slug: String
 ) : ViewModel() {
 
-    private val state = MutableStateFlow(ThirdViewState())
+    private val state = MutableStateFlow(CatalogViewState())
     fun observeUi() = state.asStateFlow()
 
     init {
-        getSecondLevelCategories(categories, title, firstIndex)
+        getCatalog(title, slug)
     }
 
-    private fun getSecondLevelCategories(categories: Categories, title: String, firstIndex: Int) {
+    private fun getCatalog(title: String, slug: String) {
         viewModelScope.launch {
             state.update { it.copy(isLoading = true) }
             try {
-                val index = getIndexByTitle(title, categories.subCategories[firstIndex].subCategories)
+                val catalogPreList = repository.getCategoryList(slug)
                 state.update {
                     it.copy(
                         title = title,
-                        items = categories.subCategories[firstIndex].subCategories[index].subCategories,
+                        items = catalogPreList,
                         error = null
                     )
                 }
@@ -42,20 +43,11 @@ class ThirdViewModel @Inject constructor(
             }
         }
     }
-
-    private fun getIndexByTitle(title: String, list: List<Categories>): Int {
-        for (i in list) {
-            if (title == i.title) {
-                return list.indexOf(i)
-            }
-        }
-        return 0
-    }
 }
 
-data class ThirdViewState(
+data class CatalogViewState(
     val title: String = "",
-    val items: List<Categories> = emptyList(),
+    val items: List<Slug> = emptyList(),
     val error: Int? = null,
     val isLoading: Boolean = false
 )

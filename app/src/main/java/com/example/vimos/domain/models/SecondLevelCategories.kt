@@ -5,5 +5,6 @@ import com.example.vimos.domain.Categories
 
 data class SecondLevelCategories(
     override val title: String,
+    override val slug: String,
     override val subCategories: List<ThirdLevelCategories>
 ): Categories

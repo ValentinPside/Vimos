@@ -34,5 +34,17 @@
         <action
             android:id="@+id/action_thirdFragment_to_secondFragment"
             app:destination="@id/secondFragment" />
+        <action
+            android:id="@+id/action_thirdFragment_to_catalogFragment"
+            app:destination="@id/catalogFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/catalogFragment"
+        android:name="com.example.vimos.presentation.fragments.CatalogFragment"
+        android:label="fragment_catalog"
+        tools:layout="@layout/fragment_catalog" >
+        <action
+            android:id="@+id/action_catalogFragment_to_thirdFragment"
+            app:destination="@id/thirdFragment" />
     </fragment>
 </navigation>
