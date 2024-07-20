@@ -56,14 +56,20 @@ class FirstFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.observeUi().collect { state ->
-                    when(state.isLoading){
+                    when (state.isLoading) {
                         true -> binding.progressBar.visibility = View.VISIBLE
                         false -> binding.progressBar.visibility = View.GONE
                     }
                     state.firstCategory?.let { activity.setData(it) }
                     adapter.submitList(state.items)
                     binding.specificToolbars.title = state.title
-                    state.error?.let { Toast.makeText(requireContext(), getString(it), Toast.LENGTH_SHORT).show() }
+                    state.error?.let {
+                        Toast.makeText(
+                            requireContext(),
+                            getString(it),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
         }
@@ -83,6 +89,11 @@ class FirstFragment : Fragment() {
         }
         binding.hotelsRecycler.adapter = adapter
         binding.hotelsRecycler.layoutManager = LinearLayoutManager(requireContext())
-        binding.hotelsRecycler.addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
+        binding.hotelsRecycler.addItemDecoration(
+            DividerItemDecoration(
+                requireContext(),
+                LinearLayoutManager.VERTICAL
+            )
+        )
     }
 }

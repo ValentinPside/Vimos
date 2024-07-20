@@ -8,8 +8,7 @@ import com.example.vimos.domain.Categories
 class MainActivity : AppCompatActivity() {
 
     private var categoryList: Categories? = null
-    private var firstIndex: Int = 0
-    private var secondIndex: Int = 0
+    private var secondFragmentIndex: Int? = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -19,15 +18,15 @@ class MainActivity : AppCompatActivity() {
         this.categoryList = categoryList
     }
 
-    fun setFirstIndex(firstIndex: Int){
-        this.firstIndex = firstIndex
-    }
-
-    fun setSecondIndex(secondIndex: Int){
-        this.secondIndex = secondIndex
-    }
-
     fun getData(): Categories?{
         return categoryList
+    }
+
+    fun setSecondFragmentIndex(secondFragmentIndex: Int){
+        this.secondFragmentIndex = secondFragmentIndex
+    }
+
+    fun getSecondFragmentIndex(): Int?{
+        return secondFragmentIndex
     }
 }

@@ -15,19 +15,25 @@ class FirstViewModel @Inject constructor(
     private val repository: Repository
 ) : ViewModel() {
 
-    private val state = MutableStateFlow(ViewState())
+    private val state = MutableStateFlow(FirstViewState())
     fun observeUi() = state.asStateFlow()
 
     init {
         getZeroLevelCategories()
     }
 
-    fun getZeroLevelCategories() {
+    private fun getZeroLevelCategories() {
         viewModelScope.launch {
             state.update { it.copy(isLoading = true) }
             try {
                 val list = repository.getZeroLevelList()
-                state.update { it.copy(items = list[0].subCategories, error = null, firstCategory = list[0]) }
+                state.update {
+                    it.copy(
+                        items = list[0].subCategories,
+                        error = null,
+                        firstCategory = list[0]
+                    )
+                }
             } catch (e: Exception) {
                 state.update { it.copy(error = R.string.error_message) }
             } finally {
@@ -35,77 +41,9 @@ class FirstViewModel @Inject constructor(
             }
         }
     }
-
-    fun getFirstLevelCategories(title: String) {
-        viewModelScope.launch {
-            state.update { it.copy(isLoading = true) }
-            try {
-                val list = state.value.items
-                state.update { it.copy(items = getListByTitle(title), error = null) }
-            } catch (e: Exception) {
-                state.update { it.copy(error = R.string.error_message) }
-            } finally {
-                state.update { it.copy(isLoading = false) }
-            }
-        }
-    }
-
-    fun getSecondLevelCategories(title: String) {
-        viewModelScope.launch {
-            state.update { it.copy(isLoading = true) }
-            try {
-                val list = state.value.items
-                state.update { it.copy(items = getListByTitle(title), error = null) }
-            } catch (e: Exception) {
-                state.update { it.copy(error = R.string.error_message) }
-            } finally {
-                state.update { it.copy(isLoading = false) }
-            }
-        }
-    }
-
-    fun getThirdLevelCategories(title: String) {
-        viewModelScope.launch {
-            state.update { it.copy(isLoading = true) }
-            try {
-                val list = getListByTitle(title)
-                state.update { it.copy(items = list, error = null) }
-            } catch (e: Exception) {
-                state.update { it.copy(error = R.string.error_message) }
-            } finally {
-                state.update { it.copy(isLoading = false) }
-            }
-        }
-    }
-
-    private fun getListByTitle(title: String): List<Categories>{
-        var index = 0
-        for(i in state.value.items){
-            if (title == i.title){
-                return i.subCategories
-            } else index++
-        }
-        return state.value.items[index].subCategories
-    }
-
-    private fun getPreIndexByTitle(title: String): Int{
-        var index = 0
-        for(i in state.value.items){
-            if (title == i.title && index > 0){
-                return index - 1
-            }
-            if(title == i.title && index == 0){
-                return 0
-            }
-            else index++
-        }
-        return index - 1
-    }
-
 }
 
-
-data class ViewState(
+data class FirstViewState(
     val title: String = "Строительные материалы",
     val items: List<Categories> = emptyList(),
     val error: Int? = null,

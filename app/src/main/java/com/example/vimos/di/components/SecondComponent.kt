@@ -1,4 +1,4 @@
-package com.example.vimos.di
+package com.example.vimos.di.components
 
 import com.example.vimos.domain.Categories
 import com.example.vimos.presentation.viewmodels.SecondViewModel
@@ -12,7 +12,10 @@ interface SecondComponent {
 
     @Subcomponent.Factory
     interface SecondComponentFactory {
-        fun create(@BindsInstance categories: Categories, @BindsInstance title: String): SecondComponent
+        fun create(
+            @BindsInstance categories: Categories,
+            @BindsInstance title: String
+        ): SecondComponent
     }
 
 }

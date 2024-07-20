@@ -1,4 +1,4 @@
-package com.example.vimos.di
+package com.example.vimos.di.components
 
 import com.example.vimos.presentation.viewmodels.FirstViewModel
 import dagger.Subcomponent

@@ -10,27 +10,35 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class SecondViewModel @Inject constructor(
+class ThirdViewModel @Inject constructor(
     categories: Categories,
-    title: String
+    title: String,
+    firstIndex: Int
 ) : ViewModel() {
 
-    private val state = MutableStateFlow(SecondViewState())
+    private val state = MutableStateFlow(ThirdViewState())
     fun observeUi() = state.asStateFlow()
 
     init {
-        getFirstLevelCategories(categories, title)
+        getSecondLevelCategories(categories, title, firstIndex)
     }
 
-    private fun getFirstLevelCategories(categories: Categories, title: String) {
+    private fun getSecondLevelCategories(categories: Categories, title: String, firstIndex: Int) {
         viewModelScope.launch {
             state.update { it.copy(isLoading = true) }
             try {
-                val index = getIndexByTitle(title, categories.subCategories)
+                val oldTitle = title
+                val oldIndex = firstIndex
+                val newTitle = categories.subCategories[firstIndex].title
+                val secondIndex =
+                    getIndexByTitle(
+                        title,
+                        categories.subCategories[0].subCategories[firstIndex].subCategories
+                    )
                 state.update {
                     it.copy(
                         title = title,
-                        items = categories.subCategories[index].subCategories,
+                        items = categories.subCategories[0].subCategories[firstIndex].subCategories[secondIndex].subCategories,
                         error = null
                     )
                 }
@@ -42,7 +50,7 @@ class SecondViewModel @Inject constructor(
         }
     }
 
-    fun getIndexByTitle(title: String, list: List<Categories>): Int {
+    private fun getIndexByTitle(title: String, list: List<Categories>): Int {
         var index = 0
         for (i in list) {
             if (title == i.title) {
@@ -53,7 +61,7 @@ class SecondViewModel @Inject constructor(
     }
 }
 
-data class SecondViewState(
+data class ThirdViewState(
     val title: String = "",
     val items: List<Categories> = emptyList(),
     val error: Int? = null,

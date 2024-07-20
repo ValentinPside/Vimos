@@ -1,6 +1,8 @@
-package com.example.vimos.di
+package com.example.vimos.di.components
 
 import android.content.Context
+import com.example.vimos.di.modules.NetworkModule
+import com.example.vimos.di.modules.RepositoryModule
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -17,6 +19,8 @@ interface AppComponent {
     fun firstComponent(): FirstComponent
 
     fun secondComponent(): SecondComponent.SecondComponentFactory
+
+    fun thirdComponent(): ThirdComponent.ThirdComponentFactory
 
     @Component.Factory
     interface AppComponentFactory {

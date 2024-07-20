@@ -1,37 +1,34 @@
 package com.example.vimos.presentation.fragments
 
 import android.content.Context
-import androidx.fragment.app.viewModels
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.os.bundleOf
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.vimos.R
 import com.example.vimos.app.App
-import com.example.vimos.databinding.FragmentSecondBinding
+import com.example.vimos.databinding.FragmentThirdBinding
 import com.example.vimos.presentation.Adapter
 import com.example.vimos.presentation.MainActivity
-import com.example.vimos.presentation.viewmodels.SecondViewModel
+import com.example.vimos.presentation.viewmodels.ThirdViewModel
 import com.example.vimos.utils.Factory
 import kotlinx.coroutines.launch
 
-class SecondFragment : Fragment() {
+class ThirdFragment : Fragment() {
 
-    private var _binding: FragmentSecondBinding? = null
+    private var _binding: FragmentThirdBinding? = null
     private val binding get() = _binding!!
     private val title by lazy { requireArguments().getString("title") }
-    private val viewModel by viewModels<SecondViewModel> {
+    private val viewModel by viewModels<ThirdViewModel> {
         Factory {
-            App.appComponent.secondComponent().create(activity.getData()!!, requireNotNull(title)).viewModel()
+            App.appComponent.thirdComponent().create(activity.getData()!!, requireNotNull(title), activity.getSecondFragmentIndex()!!).viewModel()
         }
     }
     private lateinit var adapter: Adapter
@@ -42,7 +39,7 @@ class SecondFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentSecondBinding.inflate(inflater, container, false)
+        _binding = FragmentThirdBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -62,10 +59,6 @@ class SecondFragment : Fragment() {
                         false -> binding.progressBar.visibility = View.GONE
                     }
                     adapter.submitList(state.items)
-                    val secondIndex = title?.let { viewModel.getIndexByTitle(it, state.items) }
-                    if (secondIndex != null) {
-                        activity.setSecondFragmentIndex(secondIndex)
-                    }
                     state.error?.let {
                         Toast.makeText(
                             requireContext(),
@@ -85,10 +78,10 @@ class SecondFragment : Fragment() {
 
     private fun setupRecycler() {
         adapter = Adapter {
-            findNavController().navigate(
-                R.id.action_secondFragment_to_thirdFragment,
-                bundleOf("title" to title)
-            )
+            /*findNavController().navigate(
+                R.id.action_firstFragment_to_secondFragment,
+                bundleOf("categoryLevel" to categoryLevel, "title" to title)
+            )*/
         }
         binding.hotelsRecycler.adapter = adapter
         binding.hotelsRecycler.layoutManager = LinearLayoutManager(requireContext())

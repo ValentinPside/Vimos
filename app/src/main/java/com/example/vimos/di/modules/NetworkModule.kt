@@ -1,4 +1,4 @@
-package com.example.vimos.di
+package com.example.vimos.di.modules
 
 import com.example.vimos.BuildConfig
 import com.example.vimos.data.network.NetworkServiceAPI
