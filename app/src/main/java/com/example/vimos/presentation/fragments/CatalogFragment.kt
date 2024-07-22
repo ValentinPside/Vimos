@@ -18,8 +18,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.vimos.R
 import com.example.vimos.app.App
 import com.example.vimos.databinding.FragmentCatalogBinding
-import com.example.vimos.presentation.Adapter
 import com.example.vimos.presentation.MainActivity
+import com.example.vimos.presentation.ProductListAdapter
 import com.example.vimos.presentation.viewmodels.CatalogViewModel
 import com.example.vimos.utils.Factory
 import kotlinx.coroutines.launch
@@ -32,10 +32,10 @@ class CatalogFragment : Fragment() {
     private val slug by lazy { requireArguments().getString("slug") }
     private val viewModel by viewModels<CatalogViewModel> {
         Factory {
-            App.appComponent.catalogComponent().create(title!!, slug!!).viewModel()
+            App.appComponent.catalogComponent().create(title!!).viewModel()
         }
     }
-    private lateinit var adapter: Adapter
+    private lateinit var adapter: ProductListAdapter
     private lateinit var activity: MainActivity
 
     override fun onCreateView(
@@ -59,6 +59,7 @@ class CatalogFragment : Fragment() {
         binding.specificToolbars.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
+        viewModel.getCatalog(title!!, slug!!)
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.observeUi().collect { state ->
@@ -66,7 +67,7 @@ class CatalogFragment : Fragment() {
                         true -> binding.progressBar.visibility = View.VISIBLE
                         false -> binding.progressBar.visibility = View.GONE
                     }
-                    //adapter.submitList(state.items)
+                    adapter.submitList(state.items)
                     state.error?.let {
                         Toast.makeText(
                             requireContext(),
@@ -85,10 +86,10 @@ class CatalogFragment : Fragment() {
     }
 
     private fun setupRecycler() {
-        adapter = Adapter {title, slug ->
+        adapter = ProductListAdapter {
             findNavController().navigate(
-                R.id.action_thirdFragment_to_catalogFragment,
-                bundleOf("title" to title, "slug" to slug)
+                R.id.action_catalogFragment_to_productFragment,
+                bundleOf("slug" to it)
             )
         }
         binding.hotelsRecycler.adapter = adapter

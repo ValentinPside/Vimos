@@ -11,32 +11,26 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class CatalogViewModel @Inject constructor(
+class ProductViewModel @Inject constructor(
     private val repository: Repository,
-    title: String
+    slug: String
 ) : ViewModel() {
 
-    private val state = MutableStateFlow(CatalogViewState())
+    private val state = MutableStateFlow(ProductViewState())
     fun observeUi() = state.asStateFlow()
 
-    fun getCatalog(title: String, slug: String) {
+    init {
+        getProduct(slug)
+    }
+
+    private fun getProduct(slug: String) {
         viewModelScope.launch {
             state.update { it.copy(isLoading = true) }
             try {
-                val catalogPreList = repository.getCategoryList(slug)
-                val catalogList = mutableListOf<Product>()
-                for (i in catalogPreList){
-                    try {
-                        val a = repository.getProduct(i.slug)
-                        catalogList.add(a)
-                    }catch (e: Exception){
-                        state.update { it.copy(error = R.string.error_message_2) }
-                    }
-                }
+                val product = repository.getProduct(slug)
                 state.update {
                     it.copy(
-                        title = title,
-                        items = catalogList,
+                        product = product,
                         error = null
                     )
                 }
@@ -49,9 +43,8 @@ class CatalogViewModel @Inject constructor(
     }
 }
 
-data class CatalogViewState(
-    val title: String = "",
-    val items: List<Product> = emptyList(),
+data class ProductViewState(
+    val product: Product? = null,
     val error: Int? = null,
     val isLoading: Boolean = false
 )

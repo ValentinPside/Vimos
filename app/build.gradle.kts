@@ -62,7 +62,10 @@ dependencies {
 
     //dagger
     implementation("com.google.dagger:dagger:2.51")
+    implementation("com.google.dagger:dagger-android:2.51")
+    implementation("com.google.dagger:dagger-android-support:2.51")
     kapt("com.google.dagger:dagger-compiler:2.51")
+    kapt("com.google.dagger:dagger-android-processor:2.51")
 
     //coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")

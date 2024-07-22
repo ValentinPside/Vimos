@@ -15,7 +15,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/back_button"
-        app:title="@string/text_holder" />
+        app:title="@string/text_holder"
+        android:theme="@style/tool_bar_style"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/hotelsRecycler"
@@ -25,7 +27,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/specific_toolbars"
-        tools:listitem="@layout/category_item" />
+        tools:listitem="@layout/product_item" />
 
     <ProgressBar
         android:id="@+id/progressBar"

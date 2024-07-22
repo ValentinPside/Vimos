@@ -1,8 +1,8 @@
 package com.example.vimos.data.network
 
+import com.example.vimos.data.dto.ProductDto
 import com.example.vimos.data.dto.SlugDto
 import com.example.vimos.data.dto.StrojmaterialDto
-import com.example.vimos.data.dto.ZeroLevelCategoriesDto
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -15,5 +15,5 @@ interface NetworkServiceAPI {
     suspend fun getCategoryList(@Path("categorySlug") categorySlug: String): List<SlugDto>
 
     @GET("products/{productSlug}")
-    suspend fun getProduct(@Path("productSlug") productSlug: String): ZeroLevelCategoriesDto
+    suspend fun getProduct(@Path("productSlug") productSlug: String): ProductDto
 }
