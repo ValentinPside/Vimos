@@ -14,9 +14,9 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/back_button"
         app:title="@string/text_holder"
-        android:theme="@style/tool_bar_style"/>
+        android:theme="@style/tool_bar_style"
+        app:titleTextAppearance="@style/toolbar_textStyle"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/hotelsRecycler"

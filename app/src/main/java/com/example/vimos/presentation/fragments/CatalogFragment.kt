@@ -32,7 +32,7 @@ class CatalogFragment : Fragment() {
     private val slug by lazy { requireArguments().getString("slug") }
     private val viewModel by viewModels<CatalogViewModel> {
         Factory {
-            App.appComponent.catalogComponent().create(title!!).viewModel()
+            App.appComponent.catalogComponent().viewModel()
         }
     }
     private lateinit var adapter: ProductListAdapter

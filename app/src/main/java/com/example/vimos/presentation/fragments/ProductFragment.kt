@@ -1,5 +1,6 @@
 package com.example.vimos.presentation.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -62,6 +63,13 @@ class ProductFragment : Fragment() {
             }
         }
 
+        binding.buttonShare.setOnClickListener {
+            val name = binding.title.text
+            val article = binding.article.text
+            val text = "Название:$name \n$article"
+            share(text)
+        }
+
         binding.toolbars.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
@@ -73,9 +81,9 @@ class ProductFragment : Fragment() {
     }
 
     private fun updateDetails(product: Product) {
-        binding.article.text = product.sku.toString()
-        binding.price.text = product.purchase.price.toString()
-        binding.article.text = product.sku.toString()
+        binding.article.text = getString(R.string.art).plus(" ${product.sku}")
+        binding.title.text = product.title
+        binding.price.text = APIConstants.formatPrice(product.purchase.price).plus(" ₽/${product.units}")
         setImage(product.images[0].original)
     }
 
@@ -85,5 +93,14 @@ class ProductFragment : Fragment() {
             .placeholder(R.drawable.ic_launcher_foreground)
             .error(R.drawable.ic_launcher_foreground)
             .into(binding.imageView)
+    }
+
+    private fun share(text: String){
+        val shareIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, text)
+            type = "text/plain"
+        }
+        startActivity(Intent.createChooser(shareIntent, null))
     }
 }
