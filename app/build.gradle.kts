@@ -52,10 +52,10 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
 
     //lifecycle
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.3")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.3")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.8.3")
-    implementation("androidx.fragment:fragment-ktx:1.8.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.4")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.4")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.8.4")
+    implementation("androidx.fragment:fragment-ktx:1.8.2")
 
     //binding
     implementation ("com.github.kirich1409:viewbindingpropertydelegate-full:1.5.9")
