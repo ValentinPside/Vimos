@@ -22,7 +22,7 @@ interface AppComponent {
 
     fun thirdComponent(): ThirdComponent.ThirdComponentFactory
 
-    fun catalogComponent(): CatalogComponent.CatalogComponentFactory
+    fun catalogComponent(): CatalogComponent
 
     fun productComponent(): ProductComponent.ProductComponentFactory
 

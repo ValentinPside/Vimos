@@ -9,11 +9,4 @@ interface CatalogComponent {
 
     fun viewModel(): CatalogViewModel
 
-    @Subcomponent.Factory
-    interface CatalogComponentFactory {
-        fun create(
-            @BindsInstance title: String
-        ): CatalogComponent
-    }
-
 }

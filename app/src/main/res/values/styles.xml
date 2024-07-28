@@ -1,11 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="tool_bar_style">
         <item name="android:background">@color/color_primary</item>
         <item name="titleTextColor">@color/white</item>
+        <item name="navigationIcon">@drawable/back</item>
+    </style>
+
+    <style name="first_tool_bar_style">
+        <item name="android:background">@color/color_primary</item>
+        <item name="titleTextColor">@color/white</item>
+    </style>
+
+    <style name="last_tool_bar_style">
+        <item name="android:background">@color/white</item>
+        <item name="titleTextColor">@color/white</item>
+        <item name="navigationIcon">@drawable/back_gary</item>
+    </style>
+
+    <style name="article_style">
+        <item name="android:textSize">@dimen/dimen_15sp</item>
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="toolbar_textStyle">
+        <item name="android:textSize">@dimen/dimen_26sp</item>
+    </style>
+
+    <style name="card_title_style">
+        <item name="android:textSize">@dimen/dimen_17sp</item>
+    </style>
+
+    <style name="price_style">
+        <item name="android:textSize">@dimen/dimen_23sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="big_article_style">
+        <item name="android:textSize">@dimen/dimen_45sp</item>
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="big_card_title_style">
+        <item name="android:textSize">@dimen/dimen_55sp</item>
+    </style>
+
+    <style name="big_price_style">
+        <item name="android:textSize">@dimen/dimen_65sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 </resources>

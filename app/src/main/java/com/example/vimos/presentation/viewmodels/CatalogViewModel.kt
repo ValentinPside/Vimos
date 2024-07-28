@@ -12,8 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class CatalogViewModel @Inject constructor(
-    private val repository: Repository,
-    title: String
+    private val repository: Repository
 ) : ViewModel() {
 
     private val state = MutableStateFlow(CatalogViewState())

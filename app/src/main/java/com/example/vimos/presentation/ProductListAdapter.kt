@@ -1,5 +1,7 @@
 package com.example.vimos.presentation
 
+import android.annotation.SuppressLint
+import android.icu.text.DecimalFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.example.vimos.R
 import com.example.vimos.databinding.ProductItemBinding
 import com.example.vimos.domain.models.Product
+import com.example.vimos.utils.APIConstants
 import com.example.vimos.utils.APIConstants.BASE_IMAGE_URL
 
 class ProductListAdapter (private val onClick: (slug: String) -> Unit) :
@@ -19,10 +22,11 @@ class ProductListAdapter (private val onClick: (slug: String) -> Unit) :
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding by viewBinding{ ProductItemBinding.bind(itemView) }
 
+        @SuppressLint("SetTextI18n")
         fun bind(product: Product) {
-            binding.article.text = product.sku.toString()
+            binding.article.text = "Артикул ${product.sku}"
             binding.title.text = product.title
-            binding.price.text = product.purchase.price.toString()
+            binding.price.text = APIConstants.formatPrice(product.purchase.price).plus(" ₽")
             Glide.with(itemView)
                 .load(BASE_IMAGE_URL.plus(product.images[0].original))
                 .placeholder(R.drawable.ic_launcher_foreground)
